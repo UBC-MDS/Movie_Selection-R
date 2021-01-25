@@ -1,0 +1,17 @@
+name: 'movies'
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - ipykernel
+  - vega_datasets
+  - altair_saver
+  - backcall
+  - docopt
+  - pip
+  - ipython>=7.15
+  - pip:
+    - canvasutils
+    - rpy2
+    - dash==1.18.1
+    - dash_bootstrap_components

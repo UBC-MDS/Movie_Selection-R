@@ -1,0 +1,83 @@
+---
+title: "working"
+author: "Alex"
+date: "1/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggthemes)
+library(hrbrthemes)
+library(viridis)
+```
+
+## Movies Selection Apps 
+R charts
+
+```{r data import}
+
+movies <- read_csv('../data/processed/movies.csv')
+
+```
+
+
+```{r Voting Avg by studio}
+
+voting_avg_by_studio <- movies %>% 
+     ggplot(aes(vote_average, studios)) +
+     geom_boxplot(fill="#20B2AA", color = 'turquoise4') + 
+     labs(x = 'Vote Average') +
+     theme(axis.title.y = element_blank(),
+           axis.title.x = element_text(face = 'bold', color = 'turquoise4'),
+           axis.text = element_text(color = 'turquoise4'))
+
+
+
+voting_avg_by_studio
+```
+
+
+```{r Financials by studios}
+
+rev_by_studio <- movies %>% 
+     ggplot(aes(revenue, studios)) +
+     geom_boxplot(fill="#20B2AA", color = 'turquoise4') + 
+     labs(x = 'Revenue (US$ mil)') +
+     theme(axis.title.y = element_blank(),
+           axis.title.x = element_text(face = 'bold', color = 'turquoise4'),
+           axis.text = element_text(color = 'turquoise4'))
+
+
+
+rev_by_studio
+```
+
+
+```{r Voting profile}
+
+voting_profile <- movies %>% 
+     ggplot(aes(vote_average, vote_count)) +
+     geom_jitter(color = "#20B2AA", color = 'turquoise4', alpha = 0.4) +
+     labs(x = 'Vote Average', y = "Vote Count") +
+     theme(
+           axis.title = element_text(face = 'bold', color = 'turquoise4'),
+           axis.text = element_text(color = 'turquoise4'))
+
+voting_profile
+
+```
+
+```{r Table}
+
+movies %>% 
+     select(title,
+            vote_average,
+            profit,
+            runtime) %>% 
+     arrange(desc(vote_average)) %>% 
+     kableExtra::kable(format = 'pipe', digits = 3)
+
+```
+

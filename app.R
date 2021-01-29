@@ -5,10 +5,10 @@ library(dashCoreComponents)
 library(dashHtmlComponents)
 library(dashBootstrapComponents)
 library(plotly)
-library(here)
+#library(here)
 #library(dashTable)
 
-movies <- read_csv(here::here("data/processed/movies.csv"))
+movies <- readr::read_csv(here::here("data/processed/movies.csv"))
 
 app <- Dash$new(external_stylesheets = dbcThemes$LUMEN)
 
@@ -67,7 +67,7 @@ genre_graphs = htmlDiv(list(dbcRow(list(
                "border-width" = "0",
                "width" = "100%",
                "height" = 265
-             ),
+             )
            )
          )),
     color = "success",
@@ -103,7 +103,7 @@ dbcRow(list(dbcCol(
                    "border-width" = "0",
                    "width" = "100%",
                    "height" = "400px"
-              ),
+              )
          )))
     ,
     color = "info",
@@ -147,7 +147,7 @@ dbcFormGroup(list(
       "100" = "100",
       "200" = "200",
       "300" = "300"
-    ),
+    )
   )
 ))),
 body = TRUE,

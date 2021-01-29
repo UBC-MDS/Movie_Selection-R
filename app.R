@@ -85,12 +85,12 @@ studio_graphs = htmlDiv(list(dbcRow(list(dbcCol(
                "border-width" = "0",
                "width" = "100%",
                "height" = "400px"
-             ),
+             )
            )
          )),
     color = "info",
     outline = TRUE
-  ),
+  )
 ))),
 htmlBr(),
 htmlBr(),

@@ -1,4 +1,4 @@
-# Movie Selection App 
+# Movie Selection App with Dash in R
 
 The Movie Selection App assists movie investors in selecting the popular and profitable movies for each genre and a specified budget range and compare different production studios. You can view the currently deployed version [here](https://movie-selection-app.herokuapp.com/)
 
@@ -30,6 +30,17 @@ To install the Movies Selection App environment for all dependencies and package
 3. After the environment has been created, switch to the environment by typing `conda activate movies`
    and hitting enter.
 
+For R, please also install the following dependencies:
+
+* R version 4.0.3
+* R packages:
+     * tidyverse
+     * purrr
+     * dash
+     * dashCoreComponents
+     * dashHtmlComponents
+     * dashBootstrapComponents
+     * plotly
 
 ## Support
 

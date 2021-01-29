@@ -8,7 +8,7 @@ library(plotly)
 #library(dashTable)
 
 
-movies = read_csv("../data/processed/movies.csv")
+movies = read_csv("data/processed/movies.csv")
 
 app <- Dash$new(external_stylesheets = dbcThemes$LUMEN)
 
@@ -29,7 +29,7 @@ CONTENT_STYLE = list(
   "z-index" = -1
 )
 
-cards = dbcCol(list(
+cards = dbcCardDeck(list(
   dbcCard(dbcCardBody(list(
     htmlH6("Average box office value", className = 'card-title'),
     htmlH4(id = "average-revenue", className = 'card-text')

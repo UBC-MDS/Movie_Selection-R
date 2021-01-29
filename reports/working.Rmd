@@ -23,8 +23,8 @@ movies <- read_csv('../data/processed/movies.csv')
 ```
 
 ```{r filtered movies}
-xgenre <- 'Horror'
-xbudget <- list(15,100)
+xgenre <- 'War'
+xbudget <- list(10,300)
 
 xbudget <- unlist(xbudget)
 
@@ -34,6 +34,18 @@ filtered_movies <- movies %>%
 
 filtered_movies
 ```
+
+```{r}
+filtered_movies %>%
+     group_by(title) %>% 
+     summarize(vote_average = mean(vote_average),
+               runtime = mean(runtime)) %>% 
+     arrange(desc(vote_average)) %>% 
+     slice(1:10)
+
+```
+
+
 
 ```{r genre dropdown}
 movies$genres %>% unique()

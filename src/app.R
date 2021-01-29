@@ -264,12 +264,15 @@ app$callback(
                       budget %in% (unlist(xbudget)[1]:unlist(xbudget)[2]))
           
           top_movies_by_vote <- filtered_movies %>% 
+               group_by(title) %>% 
+               summarize(vote_average = mean(vote_average),
+                         runtime = mean(runtime)) %>% 
                arrange(desc(vote_average)) %>% 
                slice(1:10) %>% 
                ggplot(aes(x= vote_average, y = reorder(title, vote_average), color = runtime)) +
                geom_point(stat = 'identity', shape = 2, size = 5, stroke = 1) +
                labs(x = "Vote Average", legend = "Runtime (mins)")+
-               xlim(3.5, 4.5)+
+               xlim(3.25, 4.5)+
                scale_color_gradient(low = "cadetblue1", high ="#20B2AA")+
                theme(axis.title.y = element_blank(),
                     axis.title = element_text(face = 'bold', color = 'turquoise4'),

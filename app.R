@@ -5,10 +5,10 @@ library(dashCoreComponents)
 library(dashHtmlComponents)
 library(dashBootstrapComponents)
 library(plotly)
+library(here)
 #library(dashTable)
 
-
-movies = read_csv("../data/processed/movies.csv")
+movies <- read_csv(here::here("data/processed/movies.csv"))
 
 app <- Dash$new(external_stylesheets = dbcThemes$LUMEN)
 
@@ -341,4 +341,4 @@ app$callback(
 
 
 
-app$run_server(debug = F)
+app$run_server(host = '0.0.0.0')

@@ -5,8 +5,6 @@ library(dashCoreComponents)
 library(dashHtmlComponents)
 library(dashBootstrapComponents)
 library(plotly)
-#library(here)
-#library(dashTable)
 
 movies <- readr::read_csv(here::here("data/processed/movies.csv"))
 

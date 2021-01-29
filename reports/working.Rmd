@@ -22,10 +22,32 @@ movies <- read_csv('../data/processed/movies.csv')
 
 ```
 
+```{r filtered movies}
+xgenre <- 'Horror'
+xbudget <- list(15,100)
+
+xbudget <- unlist(xbudget)
+
+filtered_movies <- movies %>% 
+     filter(genres == xgenre,
+            budget %in% (xbudget[1]:xbudget[2]))
+
+filtered_movies
+```
+
+```{r genre dropdown}
+movies$genres %>% unique()
+
+
+```
+
+
+
 
 ```{r Voting Avg by studio}
 
-voting_avg_by_studio <- movies %>% 
+
+voting_avg_by_studio <- filtered_movies %>% 
      ggplot(aes(vote_average, studios)) +
      geom_boxplot(fill="#20B2AA", color = 'turquoise4') + 
      labs(x = 'Vote Average') +
@@ -41,7 +63,7 @@ voting_avg_by_studio
 
 ```{r Financials by studios}
 
-rev_by_studio <- movies %>% 
+rev_by_studio <- filtered_movies %>% 
      ggplot(aes(revenue, studios)) +
      geom_boxplot(fill="#20B2AA", color = 'turquoise4') + 
      labs(x = 'Revenue (US$ mil)') +
@@ -57,7 +79,7 @@ rev_by_studio
 
 ```{r Voting profile}
 
-voting_profile <- movies %>% 
+voting_profile <- filtered_movies %>% 
      ggplot(aes(vote_average, vote_count)) +
      geom_jitter(color = "#20B2AA", color = 'turquoise4', alpha = 0.4) +
      labs(x = 'Vote Average', y = "Vote Count") +
@@ -71,13 +93,34 @@ voting_profile
 
 ```{r Table}
 
-movies %>% 
-     select(title,
-            vote_average,
-            profit,
-            runtime) %>% 
-     arrange(desc(vote_average)) %>% 
-     kableExtra::kable(format = 'pipe', digits = 3)
+top_movies_df <- filtered_movies %>% 
+               select(title,
+                      vote_average,
+                      profit,
+                      runtime) %>% 
+               arrange(desc(vote_average)) %>% 
+               kableExtra::kable(format = 'pipe', digits = 3)
 
+
+```
+
+```{r}
+
+top_movies_by_vote <- filtered_movies %>% 
+               arrange(desc(vote_average)) %>% 
+               slice(1:10) %>%
+               ggplot(aes(x= vote_average, y = reorder(title, vote_average), fill = runtime)) +
+               geom_bar(stat = 'identity')
+
+top_movies_by_vote
+
+```
+```{r}
+filtered_movies <- movies %>% 
+               filter(genres == xgenre,
+                      budget %in% (unlist(xbudget)[1]:unlist(xbudget)[2]))
+          
+          average_revenue <- paste("US$", round(mean(filtered_movies$revenue),2),"mil")
+          average_revenue
 ```
 

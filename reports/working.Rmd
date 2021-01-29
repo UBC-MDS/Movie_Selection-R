@@ -1,0 +1,138 @@
+---
+title: "working"
+author: "Alex"
+date: "1/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggthemes)
+library(hrbrthemes)
+library(viridis)
+```
+
+## Movies Selection Apps 
+R charts
+
+```{r data import}
+
+movies <- read_csv('../data/processed/movies.csv')
+
+```
+
+```{r filtered movies}
+xgenre <- 'War'
+xbudget <- list(10,300)
+
+xbudget <- unlist(xbudget)
+
+filtered_movies <- movies %>% 
+     filter(genres == xgenre,
+            budget %in% (xbudget[1]:xbudget[2]))
+
+filtered_movies
+```
+
+```{r}
+filtered_movies %>%
+     group_by(title) %>% 
+     summarize(vote_average = mean(vote_average),
+               runtime = mean(runtime)) %>% 
+     arrange(desc(vote_average)) %>% 
+     slice(1:10)
+
+```
+
+
+
+```{r genre dropdown}
+movies$genres %>% unique()
+
+
+```
+
+
+
+
+```{r Voting Avg by studio}
+
+
+voting_avg_by_studio <- filtered_movies %>% 
+     ggplot(aes(vote_average, studios)) +
+     geom_boxplot(fill="#20B2AA", color = 'turquoise4') + 
+     labs(x = 'Vote Average') +
+     theme(axis.title.y = element_blank(),
+           axis.title.x = element_text(face = 'bold', color = 'turquoise4'),
+           axis.text = element_text(color = 'turquoise4'))
+
+
+
+voting_avg_by_studio
+```
+
+
+```{r Financials by studios}
+
+rev_by_studio <- filtered_movies %>% 
+     ggplot(aes(revenue, studios)) +
+     geom_boxplot(fill="#20B2AA", color = 'turquoise4') + 
+     labs(x = 'Revenue (US$ mil)') +
+     theme(axis.title.y = element_blank(),
+           axis.title.x = element_text(face = 'bold', color = 'turquoise4'),
+           axis.text = element_text(color = 'turquoise4'))
+
+
+
+rev_by_studio
+```
+
+
+```{r Voting profile}
+
+voting_profile <- filtered_movies %>% 
+     ggplot(aes(vote_average, vote_count)) +
+     geom_jitter(color = "#20B2AA", color = 'turquoise4', alpha = 0.4) +
+     labs(x = 'Vote Average', y = "Vote Count") +
+     theme(
+           axis.title = element_text(face = 'bold', color = 'turquoise4'),
+           axis.text = element_text(color = 'turquoise4'))
+
+voting_profile
+
+```
+
+```{r Table}
+
+top_movies_df <- filtered_movies %>% 
+               select(title,
+                      vote_average,
+                      profit,
+                      runtime) %>% 
+               arrange(desc(vote_average)) %>% 
+               kableExtra::kable(format = 'pipe', digits = 3)
+
+
+```
+
+```{r}
+
+top_movies_by_vote <- filtered_movies %>% 
+               arrange(desc(vote_average)) %>% 
+               slice(1:10) %>%
+               ggplot(aes(x= vote_average, y = reorder(title, vote_average), fill = runtime)) +
+               geom_bar(stat = 'identity')
+
+top_movies_by_vote
+
+```
+```{r}
+filtered_movies <- movies %>% 
+               filter(genres == xgenre,
+                      budget %in% (unlist(xbudget)[1]:unlist(xbudget)[2]))
+          
+          average_revenue <- paste("US$", round(mean(filtered_movies$revenue),2),"mil")
+          average_revenue
+```
+

@@ -5,10 +5,9 @@ library(dashCoreComponents)
 library(dashHtmlComponents)
 library(dashBootstrapComponents)
 library(plotly)
-#library(dashTable)
 
 
-movies = read_csv("data/processed/movies.csv")
+movies <- readr::read_csv(here::here("data/processed/movies.csv"))
 
 app <- Dash$new(external_stylesheets = dbcThemes$LUMEN)
 
@@ -69,7 +68,7 @@ genre_graphs = htmlDiv(list(dbcRow(list(
                "border-width" = "0",
                "width" = "100%",
                "height" = 265
-             ),
+             )
            )
          )),
     color = "success",
@@ -87,12 +86,12 @@ studio_graphs = htmlDiv(list(dbcRow(list(dbcCol(
                "border-width" = "0",
                "width" = "100%",
                "height" = "400px"
-             ),
+             )
            )
          )),
     color = "info",
     outline = TRUE
-  ),
+  )
 ))),
 htmlBr(),
 htmlBr(),
@@ -105,7 +104,7 @@ dbcRow(list(dbcCol(
                    "border-width" = "0",
                    "width" = "100%",
                    "height" = "400px"
-              ),
+              )
          )))
     ,
     color = "info",
@@ -149,7 +148,7 @@ dbcFormGroup(list(
       "100" = "100",
       "200" = "200",
       "300" = "300"
-    ),
+    )
   )
 ))),
 body = TRUE,
@@ -181,23 +180,23 @@ app$callback(
      list(input("xgenre-widget", "value"),
           input("xbudget-widget", "value")),
      function(xgenre, xbudget){
-          filtered_movies <- movies %>% 
+          filtered_movies <- movies %>%
                filter(genres == xgenre,
                       budget %in% (unlist(xbudget)[1]:unlist(xbudget)[2]))
-         
-          vote_avg_by_studio <- filtered_movies %>% 
+
+          vote_avg_by_studio <- filtered_movies %>%
                ggplot(aes(x = as.factor(studios), y = vote_average)) +
-               geom_boxplot(fill="#20B2AA", color = 'turquoise4') + 
+               geom_boxplot(fill="#20B2AA", color = 'turquoise4') +
                labs(y = 'Vote Average') +
                coord_flip() +
                theme(axis.title.y = element_blank(),
                      axis.title.x = element_text(face = 'bold', color = 'turquoise4'),
                      axis.text = element_text(color = 'turquoise4'))
-          
-          ggplotly(vote_avg_by_studio + aes(text = title), tooltip = 'text') 
-          
+
+          ggplotly(vote_avg_by_studio + aes(text = title), tooltip = 'text')
+
      }
-     
+
 )
 
 
@@ -208,23 +207,23 @@ app$callback(
      list(input("xgenre-widget", "value"),
           input("xbudget-widget", "value")),
      function(xgenre, xbudget){
-          filtered_movies <- movies %>% 
+          filtered_movies <- movies %>%
                filter(genres == xgenre,
                       budget %in% (unlist(xbudget)[1]:unlist(xbudget)[2]))
-          
-          rev_by_studio <- filtered_movies %>% 
+
+          rev_by_studio <- filtered_movies %>%
                ggplot(aes(x = as.factor(studios), y = revenue)) +
-               geom_boxplot(fill="#20B2AA", color = 'turquoise4') + 
+               geom_boxplot(fill="#20B2AA", color = 'turquoise4') +
                labs(y = 'Revenue (US$ mil)') +
                coord_flip() +
                theme(axis.title.y = element_blank(),
                      axis.title.x = element_text(face = 'bold', color = 'turquoise4'),
                      axis.text = element_text(color = 'turquoise4'))
-          
-          ggplotly(rev_by_studio + aes(text = title), tooltip = 'text') 
-          
+
+          ggplotly(rev_by_studio + aes(text = title), tooltip = 'text')
+
      }
-     
+
 )
 
 
@@ -235,22 +234,22 @@ app$callback(
      list(input("xgenre-widget", "value"),
           input("xbudget-widget", "value")),
      function(xgenre, xbudget){
-          filtered_movies <- movies %>% 
+          filtered_movies <- movies %>%
                filter(genres == xgenre,
                       budget %in% (unlist(xbudget)[1]:unlist(xbudget)[2]))
-          
-          voting_profile <- filtered_movies %>% 
+
+          voting_profile <- filtered_movies %>%
                ggplot(aes(vote_average, vote_count)) +
                geom_jitter(color = "#20B2AA", color = 'turquoise4', alpha = 0.6) +
                labs(x = 'Vote Average', y = "Vote Count") +
                theme(
                     axis.title = element_text(face = 'bold', color = 'turquoise4'),
                     axis.text = element_text(color = 'turquoise4'))
-          
-          ggplotly(voting_profile + aes(text = title), tooltip = 'text') 
-          
+
+          ggplotly(voting_profile + aes(text = title), tooltip = 'text')
+
      }
-     
+
 )
 
 
@@ -261,16 +260,16 @@ app$callback(
      list(input("xgenre-widget", "value"),
           input("xbudget-widget", "value")),
      function(xgenre, xbudget){
-          filtered_movies <- movies %>% 
+          filtered_movies <- movies %>%
                filter(genres == xgenre,
                       budget %in% (unlist(xbudget)[1]:unlist(xbudget)[2]))
-          
-          top_movies_by_vote <- filtered_movies %>% 
-               group_by(title) %>% 
+
+          top_movies_by_vote <- filtered_movies %>%
+               group_by(title) %>%
                summarize(vote_average = mean(vote_average),
-                         runtime = mean(runtime)) %>% 
-               arrange(desc(vote_average)) %>% 
-               slice(1:10) %>% 
+                         runtime = mean(runtime)) %>%
+               arrange(desc(vote_average)) %>%
+               slice(1:10) %>%
                ggplot(aes(x= vote_average, y = reorder(title, vote_average), color = runtime)) +
                geom_point(stat = 'identity', shape = 2, size = 5, stroke = 1) +
                labs(x = "Vote Average", legend = "Runtime (mins)")+
@@ -279,12 +278,12 @@ app$callback(
                theme(axis.title.y = element_blank(),
                     axis.title = element_text(face = 'bold', color = 'turquoise4'),
                     axis.text = element_text(color = 'turquoise4'))
-          
-          ggplotly(top_movies_by_vote + aes(text = paste("Runtime:", runtime, "\nVote avg", vote_average)), tooltip = 'text')     
+
+          ggplotly(top_movies_by_vote + aes(text = paste("Runtime:", runtime, "\nVote avg", vote_average)), tooltip = 'text')
 
 
      }
-     
+
 )
 
 
@@ -296,7 +295,7 @@ app$callback(
      list(input("xgenre-widget", "value"),
           input("xbudget-widget", "value")),
      function(xgenre, xbudget) {
-          filtered_movies <- movies %>% 
+          filtered_movies <- movies %>%
                filter(genres == xgenre,
                       budget %in% (unlist(xbudget)[1]:unlist(xbudget)[2]))
           average_revenue <- paste("US$", round(mean(filtered_movies$revenue),2),"mil")
@@ -312,7 +311,7 @@ app$callback(
      list(input("xgenre-widget", "value"),
           input("xbudget-widget", "value")),
      function(xgenre, xbudget) {
-          filtered_movies <- movies %>% 
+          filtered_movies <- movies %>%
                filter(genres == xgenre,
                       budget %in% (unlist(xbudget)[1]:unlist(xbudget)[2]))
           average_vote <- round(mean(filtered_movies$vote_average),2)
@@ -343,4 +342,4 @@ app$callback(
 
 
 
-app$run_server(debug = F)
+app$run_server(host = '0.0.0.0')

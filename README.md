@@ -1,6 +1,6 @@
 # Movie Selection App with Dash in R
 
-The Movie Selection App assists movie investors in selecting the popular and profitable movies for each genre and a specified budget range and compare different production studios. You can view the currently deployed version [here](https://movie-selection-app.herokuapp.com/)
+The Movie Selection App assists movie investors in selecting the popular and profitable movies for each genre and a specified budget range and compare different production studios. You can view the currently deployed version [here](https://movie-selection-app-r.herokuapp.com/)
 
 ## Contributors: DSCI_532_group7
 

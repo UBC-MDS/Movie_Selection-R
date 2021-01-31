@@ -6,6 +6,7 @@ library(dashHtmlComponents)
 library(dashBootstrapComponents)
 library(plotly)
 
+
 movies <- readr::read_csv(here::here("data/processed/movies.csv"))
 
 app <- Dash$new(external_stylesheets = dbcThemes$LUMEN)
@@ -27,20 +28,22 @@ CONTENT_STYLE = list(
   "z-index" = -1
 )
 
-cards = dbcCol(list(
-  dbcCard(dbcCardBody(list(
-    htmlH6("Average box office value", className = 'card-title'),
-    htmlH4(id = "average-revenue", className = 'card-text')
-  )),
-  color = "primary",
-  outline = TRUE),
-  dbcCard(dbcCardBody(list(
-    htmlH6("Average voting", className = 'card-title'),
-    htmlH4(id = "average-vote", className = 'card-text')
-  )),
-  color = "primary",
-  outline = TRUE)
-))
+cards = dbcCardDeck(
+  list(
+    dbcCard(dbcCardBody(list(
+      htmlH6("Average voting", className = 'card-title'),
+      htmlH4(id = "average-vote", className = 'card-text')
+    )),
+    color = "primary",
+    outline = TRUE),
+    dbcCard(dbcCardBody(list(
+      htmlH6("Average box office value", className = 'card-title'),
+      htmlH4(id = "average-revenue", className = 'card-text')
+    )),
+    color = "primary",
+    outline = TRUE)
+  )
+)
 
 genre_graphs = htmlDiv(list(dbcRow(list(
   dbcCol(dbcCard(

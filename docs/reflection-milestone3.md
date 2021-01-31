@@ -17,6 +17,4 @@ The `R` implementation comes with the usage of `plotly` through `ggplotly` that 
 The development loop of build-run-test is marginally less friendly in the `R` implementation that in `Python` since auto-updating works intermittently. Moreover, deployment with `R` is a more involved process than with `Python`. 
 
 ### `Python` vs `R` Thoughts
-From our experience, the major drawback of the `R` version is the more intricate deployment process. However, this we only need to learn this once and could possibly automate it. On the other hand, the major positive for the `R` version is the usage of `plotly`. However, it should be easy to re-implement the `Python` dashboard with `plotly` too. 
-
-> talk
+From our experience, the major drawback of the `R` version is the more intricate deployment process. However, this we only need to learn this once and could possibly automate it. On the other hand, the major positive for the `R` version is the usage of `plotly`. However, it should be easy to re-implement the `Python` dashboard with `plotly` too. The `Python` implementation was more flexible and the designing of the layout was more fluent. 
